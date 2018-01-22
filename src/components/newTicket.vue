@@ -21,7 +21,7 @@
         <v-ons-list-title>映画館</v-ons-list-title>
         <v-ons-list-item><v-ons-input placeholder="映画館を入力" style="width:100%;" v-model="item.theater" required></v-ons-input></v-ons-list-item>
         <v-ons-list-header>その他</v-ons-list-header>
-        <v-ons-list-item><textarea v-model="item.memo"class="textarea textarea--transparent" placeholder="メモ・感想など" style="width:100%;" rows="5"></textarea></v-ons-list-item>
+        <v-ons-list-item><textarea v-model="item.memo" class="textarea textarea--transparent" placeholder="メモ・感想など" style="width:100%;" rows="5"></textarea></v-ons-list-item>
       </v-ons-list>
     </div>
     <v-ons-button modifier="large" @click="registerStub" ripple type="submit"><b>保存</b></v-ons-button>
@@ -52,8 +52,44 @@
         this.createImage(files[0])
       },
       createImage (file) {
+        let image = new Image()
         let reader = new FileReader()
         reader.onload = (e) => {
+          image.onload = () => {
+            
+            var width, height
+            if (image.width > image.height) {
+            // 横長の画像は横のサイズを指定値にあわせる
+              var ratio = image.height / image.width;
+              width = 300;
+              height = 300 * ratio;
+            } else {
+              // 縦長の画像は縦のサイズを指定値にあわせる
+              var ratio = image.width / image.height;
+              width = 300 * ratio;
+              height = 300;
+            }
+            
+            var canvas = document.createElement('canvas')
+            canvas.setAttribute('width', width)
+            canvas.setAttribute('height', height)
+            var ctx = canvas.getContext('2d')
+            ctx.clearRect(0, 0, width, height)
+            ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+
+            var base64 = canvas.toDataURL('image/jpeg')
+
+            var barr, bin, i, len
+            bin = atob(base64.split('base64,')[0])
+            len = bin.length
+            barr = new Uint8Array(len)
+            i = 0
+            while (i < len) {
+              barr[i] = bin.charCodeAt(i)
+              i++
+            }
+            blob = new Blob([arr], { type: 'image/jpeg' })
+          }
           this.uploadedImage = e.target.result
         }
         reader.readAsDataURL(file)
@@ -78,6 +114,7 @@
           this.$ons.notification.toast('入力内容に誤りがあります。', { timeout: 4000 })
           return
         }
+
         var list = new TicketList()
         list.add(new Ticket({
           image_url: this.uploadedImage,
