@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "onsenui": "~2.7.2",
     "vue": "^2.5.0",
     "vue-onsenui": "~2.3.0",
