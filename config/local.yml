@@ -1,0 +1,6 @@
+config:
+  fname: "local.yml"
+  localParam: "local.yaml parameter"
+  api:
+    url: "localhost"
+    port: "3000"
