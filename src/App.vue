@@ -1,26 +1,12 @@
 <template>
   <v-ons-page id="app">
-    <!-- <v-ons-carousel fullscreen swipeable auto-scroll overscrollable :index.sync="carouselIndex" v-show="isBeginner">
-      <v-ons-carousel-item v-for="(value, key) in tutorials" :style="{ backgroundColor: value.color }">
-        <p style="text-align: center; font-size: 25px; font-weight: 600; margin-top: 30px; color: #fff;" v-html="value.text.replace(/\n/g,'<br/>')""></p>
-        <v-ons-button modifier="quiet" v-if="key === 2" @click="becomeUser()" style="color:#fff; padding: 10px; font-size:20px; border:1px solid #fff; display: block; margin: 50% 25%;"><b>Stubをはじめる</b></v-ons-button><br>
-      </v-ons-carousel-item>
-    </v-ons-carousel> -->
-    <!-- <div :style="dots">
-      <span :index="dotIndex - 1" v-for="dotIndex in Object.keys(tutorials).length" :key="dotIndex" style="cursor: pointer" @click="carouselIndex = dotIndex - 1">
-        {{ carouselIndex === dotIndex - 1 ? '\u25CF' : '\u25CB' }}
-      </span>
-    </div> -->
-
     <v-ons-tabbar swipeable position="auto" :visible="true" :tabs="tabs" :index.sync="tabIndex" @changeTab="changeTab($event)">
     </v-ons-tabbar>
-    </div>
   </v-ons-page>
 </template>
 
 <script>
 import timeline from './components/timeline'
-import myPage from './components/myPage'
 import settings from './components/settings'
 import newTicket from './components/newTicket'
 
@@ -39,20 +25,6 @@ export default {
         left: 0,
         right: 0
       },
-      tutorials: [
-        {
-          color: '#EC9F05',
-          text: 'Stub!へようこそ！'
-        },
-        {
-          color: '#094074',
-          text: 'ここでは、\nあなたの思い出に残る映画を\n記録することが出来ます。'
-        },
-        {
-          color: '#03CEA4',
-          text: '使い方はカンタン\nさあ、はじめよう'
-        }
-      ],
       tabs: [
         {
           icon: 'ion-ios-list',
@@ -65,8 +37,8 @@ export default {
           page: newTicket
         },
         {
-          icon: 'ion-person',
-          label: 'ユーザ設定',
+          icon: 'ion-gear-a',
+          label: '設定',
           page: settings
         }
       ]
@@ -86,7 +58,7 @@ export default {
       this.$forceUpdate()
     }
   },
-  components: { timeline, myPage, settings }
+  components: { timeline, settings }
 }
 </script>
 

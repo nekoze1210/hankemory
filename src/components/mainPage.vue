@@ -11,9 +11,9 @@
       </div>
       <div v-for="ticket in tickets">
         <v-ons-card @click="push(ticket)">
-          <b>{{ ticket.watched_at }}</b>
-            <div class="card movie" :style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(' + ticket.image_url + ')' }">
-            <div class="card-name">{{ ticket.movie_name }}</div>
+          <b>{{ ticket.enjoyed_at }}</b>
+            <div class="card movie" :style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(' + ticket.ticket_image.url.url + ')' }">
+            <div class="card-name">{{ ticket.title }}</div>
           </div>
         </v-ons-card>
       </div>
@@ -24,6 +24,7 @@
 <script>
   import detailPage from './show'
   import TicketList from '../models/ticket_list'
+  import axios from 'axios'
 
   export default {
     name: 'main',
@@ -39,9 +40,11 @@
         this.$emit('push-page', { page: detailPage, data: ticket })
       },
       loadTickets () {
-        var list = new TicketList()
-        list.sortByWatchedAtDesc(list.tickets)
-        this.tickets = list.tickets
+        axios.get('http://localhost:3000/v1/api/tickets').then(response => {
+            this.tickets = response.data
+          }).catch(error => {
+            console.log(error)
+          })
       }
     },
     beforeMount: function () {
